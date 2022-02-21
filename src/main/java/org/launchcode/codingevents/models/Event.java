@@ -1,8 +1,6 @@
 package org.launchcode.codingevents.models;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Objects;
 
 /**
@@ -24,11 +22,29 @@ public class Event {
     @Email(message = "Invalid email. Try again.")
     private String contactEmail;
 
-    public Event(String name, String description, String contactEmail) {
+    @NotNull(message="Location is required")
+    @NotBlank(message="Location is required")
+    private String location;
+
+    @AssertTrue(message="This event must have attendees register")
+    private boolean shouldRegister;
+
+    @NotNull(message="At least one attendee")
+    @Min(value = 1, message="At least one attendee is required")
+    private Integer numOfAttendees;
+
+    @NotNull(message = "Event must provide at least one slice of pizza")
+    @Min(value = 1, message = "Event must provide at least one slice of pizza")
+    @Max(value = 5, message = "Event must not provide more than 5 slices of pizza")
+    private Integer pizzaPerPerson;
+
+    public Event(String name, String description, String contactEmail, String location, Integer numOfAttendees) {
         this();
         this.name = name;
         this.description = description;
         this.contactEmail = contactEmail;
+        this.location = location;
+        this.numOfAttendees = numOfAttendees;
     }
 
     public Event() {
@@ -62,6 +78,38 @@ public class Event {
 
     public int getId() {
         return id;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public boolean isShouldRegister() {
+        return shouldRegister;
+    }
+
+    public void setShouldRegister(boolean shouldRegister) {
+        this.shouldRegister = shouldRegister;
+    }
+
+    public Integer getNumOfAttendees() {
+        return numOfAttendees;
+    }
+
+    public void setNumOfAttendees(Integer numOfAttendees) {
+        this.numOfAttendees = numOfAttendees;
+    }
+
+    public Integer getPizzaPerPerson() {
+        return pizzaPerPerson;
+    }
+
+    public void setPizzaPerPerson(Integer pizzaPerPerson) {
+        this.pizzaPerPerson = pizzaPerPerson;
     }
 
     @Override
